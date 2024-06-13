@@ -1,0 +1,36 @@
+---
+title: "NYC Census Tracts"
+author: "Krisha Khokale"
+format: html
+---
+
+```{r}
+#| echo: false
+#| label: setup
+#| message: false
+
+library(tidyverse)
+library(ggbeeswarm)
+```
+
+```{r}
+#| echo: false
+
+census <- read_csv("data/nyc_tracts.csv", show_col_types = FALSE)
+
+census |> 
+  drop_na() |> 
+  ggplot(aes(x = med_income, y = race, color = tract)) +
+  geom_quasirandom(aes(color = med_income), size = 2, alpha = 0.7) +
+  scale_color_viridis_c() +
+  scale_x_continuous(labels = scales::dollar) +
+  labs(
+    title = "Household income distribution by largest racial/ethnic group",
+    subtitle = "Census tracts, New York City",
+    x = "Median household income",
+    y = "Largest group in Census tract",
+    caption = "Data source: 2016-2020 ACS"
+  ) +
+  theme_minimal()
+```
+
